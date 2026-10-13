@@ -1,8 +1,8 @@
-# Four ways to make simulated demonstrations count
+# Paper review: TUCO, SimVLA, OCBench and Splat2Act
 
 Four papers from the first week of October 2026 ask the same question from different sides: why does a policy trained on simulated demonstrations so often fail on a real robot, and what fixes it? In our own co-training runs, adding scripted simulation episodes to real teleoperation data has so far made the real-robot policy worse, not better. So I read these papers for the specific fix each one offers. Each one changes a different property of the simulated data. TUCO changes which demonstrations you keep. SimVLA changes which states the data covers. OCBench changes how the demonstrations move. Splat2Act changes what the cameras see. Taken together, they turn "sim data doesn't transfer" into four separate questions you can test.
 
-## Selection: some simulated demonstrations hurt
+## TUCO: Curating Simulation Demonstrations for Sim-to-Real Robot Policy Co-Training
 
 [TUCO](https://arxiv.org/abs/2610.05407) (Zhu et al., Stanford and collaborators, October 4) starts from a result many teams have seen without naming it. Co-training on the whole simulated pool can be roughly as bad as not co-training at all. On a Franka FR3 with an image-conditioned Diffusion Policy, 10 real demonstrations plus all 1,200 simulated ones averaged 25.8% success over three tasks. Ten real demonstrations alone averaged 16.7%. A random half of the simulated pool also gave 25.8%.
 
@@ -20,7 +20,7 @@ Most of that jump belongs to influence-based curation in general. [CUPID](https:
 
 I find the method most useful as a diagnostic. If a curated subset recovers the gain, the pool mixes good trajectories with harmful ones. If no subset helps, the pool lacks something the real task needs, and no amount of selection can add it.
 
-## Coverage: the data never visits the policy's mistakes
+## SimVLA: Zero-Shot Sim-to-Real VLA Learning for Mobile Manipulation
 
 That missing something is often recovery. A scripted teacher takes its typical path every time. The policy trained on it drifts off that path at test time, and the data says nothing about what to do there. Ross, Gordon and Bagnell made the cost precise in [the DAgger paper](https://arxiv.org/abs/1011.0686) (AISTATS 2011): errors compound with the square of the horizon unless the training data includes the learner's own states.
 
@@ -36,7 +36,7 @@ The authors call SimDeploy's gain task-dependent, but their own kitchen table is
 
 The counter-position deserves a fair hearing, and the paper supplies it. π0.5 fine-tuned on 200 real demonstrations reaches 67.8% in the kitchen it was trained in, and beats SimVLA there on every task. Real data in the deployment room still wins in that room. Simulation won the other two rooms: the same π0.5 fell to 21.3% in the pantry and 29% in the home, while SimVLA held roughly level.
 
-## Behavior: scripted demonstrations do not move like people
+## Behavioral Cloning Mystery (OCBench)
 
 [OCBench](https://arxiv.org/abs/2610.07056) (Park and Levine, UC Berkeley, October 5) is a benchmark paper, but its data recipe matters for anyone writing scripted teachers. The authors argue that human demonstrations have three properties scripted data usually lacks:
 
@@ -54,7 +54,7 @@ OCBench's scripts sample random waypoints for each phase and join them with smoo
 
 The paper does not claim human-like data trains better policies, and it has no real-robot results. Its value here is the recipe. The usual complaint about planner-generated demonstrations is that they look robotic, with every first grasp following nearly the same path. Spline waypoints with randomized grasps, speeds and curvature address that directly, and the mistake-and-recover knob produces recovery data from the teacher instead of from the student's failures. Two findings are also cheap to check in any behavior-cloning stack: try chunk lengths around 25 steps, and don't pick checkpoints by validation loss.
 
-## Appearance: render the room the robot will see
+## Splat2Act: From Captured Scenes to Personalized VLA Manipulation
 
 [Splat2Act](https://arxiv.org/abs/2610.13945) (Ye et al., Georgia Tech, Waymo and TRI, October 9) attacks the visual gap. A 20 to 30 minute iPhone scan becomes a 3D Gaussian splat for rendering and a mesh for collision. One photo per object becomes a mesh through SAM3D. The pipeline then finds receptacles in the mesh automatically, keeps those a Stretch 3 can reach, and has a scripted oracle with privileged poses generate pickup demonstrations in Isaac Sim. Across 101 scanned campus buildings it produced 68,021 demonstrations on 852 receptacles. π0.5 is fine-tuned in two stages: first on public objects, then on the user's own objects in the deployment scene.
 
@@ -62,7 +62,7 @@ The headline is transfer. The best policy reached 66.7% in simulation and 63.9% 
 
 The paper does not isolate the variable I most want isolated. No experiment renders the same scene from a plain mesh instead of the splat, so the close sim-to-real match shows this pipeline transfers, not that the splat is why. The samples are small: 12 simulated and 36 real trials per policy. The task is a single pickup judged by height, and the authors note that the real gripper's rubber fingertips forgive grasps the simulated contact model would not. In an unseen lab, both personalized policies fell to between 22% and 33%.
 
-## Four questions to ask of a simulated dataset that won't transfer
+## Takeaways
 
 Together, the four papers give a diagnostic order:
 
