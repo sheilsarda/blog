@@ -51,18 +51,34 @@ layout: default
 <section id="updates">
   <h1>Updates</h1>
   <ul class="updates">
-    {% for item in site.data.updates %}
+    {% comment %}
+      One list, newest first. Manual notes sort on `sort`; posts sort on post.date.
+      The path tie-break matches Jekyll's same-day order.
+    {% endcomment %}
+    {% capture timeline %}{% for item in site.data.updates %}@@{{ item.sort | date: "%Y-%m-%d" }}|m|{{ forloop.index0 }}{% endfor %}{% for post in site.posts %}@@{{ post.date | date: "%Y-%m-%d" }}|p|{{ post.path }}{% endfor %}{% endcapture %}
+    {% assign timeline = timeline | split: "@@" | sort | reverse %}
+    {% for row in timeline %}
+      {% assign parts = row | strip | split: "|" %}
+      {% assign kind = parts[1] %}
+      {% if kind == "m" %}
+        {% assign item_index = parts[2] | plus: 0 %}
+        {% assign item = site.data.updates[item_index] %}
     <li>
       <b class="update-date">{{ item.date }}</b>
       <span class="update-body">{{ item.html | safe }}</span>
     </li>
-    {% endfor %}
-    {% for post in site.posts limit: 5 %}
-      {% assign update_title = post.short_title | default: post.title %}
+      {% elsif kind == "p" %}
+        {% assign post_path = parts[2] | strip %}
+        {% for post in site.posts %}
+          {% if post.path == post_path %}
+            {% assign update_title = post.short_title | default: post.title %}
     <li>
       <b class="update-date">{{ post.date | date: "%b %Y" }}</b>
       <span class="update-body"><a href="{{ post.url | relative_url }}">{{ update_title }}</a></span>
     </li>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
     {% endfor %}
   </ul>
 </section>
