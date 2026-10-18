@@ -2,44 +2,106 @@
 layout: default
 ---
 
-<section class="posts-section">
-  <h2 class="section-label">Posts</h2>
-  <ul class="post-list">
+{% assign profile = site.data.profile %}
+{% assign photo = profile.photo | default: "" | strip %}
+{% assign credit = profile.credit | default: "" | strip %}
+{% assign email = profile.email | default: "" | strip %}
+{% assign hobbies = profile.hobbies | default: "" | strip %}
+{% assign cv = profile.cv | default: "" | strip %}
+
+<section id="profile">
+  {% if photo != "" %}
+  <div id="profile-pic">
+    <img src="{{ photo | relative_url }}" alt="{{ profile.name }}">
+    {% if credit != "" %}
+    <p class="photo-credit">{{ credit }}</p>
+    {% endif %}
+  </div>
+  {% endif %}
+
+  <h1 id="profile-name">{{ profile.name }}</h1>
+
+  {% if email != "" %}
+  <p id="profile-email">{{ email }}</p>
+  {% endif %}
+
+  {% if site.description != blank %}
+  <p>{{ site.description }}</p>
+  {% endif %}
+
+  {{ content }}
+
+  {% if hobbies != "" %}
+  <p>{{ hobbies }}</p>
+  {% endif %}
+
+  <p class="profile-links">
+    {%- assign link_sep = "" -%}
+    {%- if cv != "" -%}
+      <a href="{{ cv | relative_url }}">CV</a>
+      {%- assign link_sep = " / " -%}
+    {%- endif -%}
+    {%- for link in profile.links -%}
+      {{ link_sep }}<a href="{{ link.url }}"{% if link.url contains "://" %} target="_blank" rel="noopener"{% endif %}>{{ link.label }}</a>
+      {%- assign link_sep = " / " -%}
+    {%- endfor -%}
+  </p>
+</section>
+
+<section id="updates">
+  <h1>Updates</h1>
+  <ul class="updates">
+    {% for item in site.data.updates %}
+    <li><b>{{ item.date }}</b> {{ item.html }}</li>
+    {% endfor %}
     {% for post in site.posts %}
-    {% assign words = post.content | number_of_words %}
-    {% assign read_time = words | plus: 149 | divided_by: 150 %}
-    {% if read_time < 1 %}{% assign read_time = 1 %}{% endif %}
-    <li class="post-preview" style="--i: {{ forloop.index0 }}">
-      <article class="post-card">
-        <a href="{{ post.url | relative_url }}" class="post-card-link">
-          <h3 class="post-card-title">{{ post.short_title | default: post.title }}</h3>
-        </a>
-        {% assign card_title = post.short_title | default: post.title %}
-        {% if post.title != card_title %}
-        {% assign title_sep = post.short_title | append: ': ' %}
-        {% if post.title contains title_sep %}
-          {% assign full_title = post.title | split: title_sep | last %}
-        {% else %}
-          {% assign full_title = post.title %}
-        {% endif %}
-        <p class="post-card-full-title">{{ full_title }}</p>
-        {% endif %}
-        <div class="post-meta">
-          <span class="meta-badge meta-badge--date">
-            <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%b %-d, %Y" }}</time>
-          </span>
-          <span class="meta-badge has-tip" tabindex="0" data-tip="Body text only, excluding front matter">{{ words | number_with_delimiter }} words</span>
-          <span class="meta-badge has-tip" tabindex="0" data-tip="Estimated at 150 words per minute">{{ read_time }} min read</span>
-        </div>
-        {% if post.description %}<p class="post-description">{{ post.description }}</p>{% endif %}
-      </article>
-    </li>
+    <li><b>{{ post.date | date: "%b %Y" }}</b> Published <a href="{{ post.url | relative_url }}">{{ post.title }}</a></li>
     {% endfor %}
   </ul>
 </section>
 
-<section class="about-section">
-  <h2 class="section-label">About</h2>
-  <p class="about-bio">{{ site.description }}</p>
-  {{ content }}
+<div class="divider"></div>
+
+<section id="blog">
+  <h1>Blog</h1>
+  <div class="blog-list">
+    {% comment %}
+      Optional post front matter:
+      thumb: /assets/posts/example.png
+      links:
+        - label: PDF
+          url: https://example.com/paper.pdf
+    {% endcomment %}
+    {% for post in site.posts %}
+      {% assign thumb_src = "" %}
+      {% assign thumb_field = post.thumb | default: "" | strip %}
+      {% if thumb_field != "" %}
+        {% assign thumb_src = thumb_field | relative_url %}
+      {% else %}
+        {% assign src_parts = post.content | split: 'src="' %}
+        {% if src_parts.size > 1 %}
+          {% assign thumb_src = src_parts[1] | split: '"' | first %}
+        {% endif %}
+      {% endif %}
+      {% assign summary = post.description | default: "" | strip %}
+
+    <article class="blog-entry">
+      {% if thumb_src != "" %}
+      <div class="research-thumb">
+        <img src="{{ thumb_src }}" alt="{{ post.title }}">
+      </div>
+      {% endif %}
+      <a class="research-proj-title" href="{{ post.url | relative_url }}">{{ post.title }}</a>
+      <p class="research-meta">
+        <b>{{ profile.name }}</b><br>
+        <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%b %-d, %Y" }}</time><br>
+        {% if summary != "" %}{{ summary }}<br>{% endif %}
+        <a href="{{ post.url | relative_url }}">Post</a>
+        {%- for link in post.links -%}
+          , <a href="{{ link.url }}">{{ link.label }}</a>
+        {%- endfor -%}
+      </p>
+    </article>
+    {% endfor %}
+  </div>
 </section>

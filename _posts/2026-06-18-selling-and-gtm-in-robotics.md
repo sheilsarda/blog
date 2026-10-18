@@ -1,3 +1,7 @@
+---
+title: "Selling a robot you haven't finished building"
+---
+
 # Selling a robot you haven't finished building
 
 ### Notes on the sales motion at a grocery automation startup, and the simulation stack standing behind every number in the contract
