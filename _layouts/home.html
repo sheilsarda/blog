@@ -52,10 +52,17 @@ layout: default
   <h1>Updates</h1>
   <ul class="updates">
     {% for item in site.data.updates %}
-    <li><b>{{ item.date }}</b> {{ item.html }}</li>
+    <li>
+      <b class="update-date">{{ item.date }}</b>
+      <span class="update-body">{{ item.html }}</span>
+    </li>
     {% endfor %}
-    {% for post in site.posts %}
-    <li><b>{{ post.date | date: "%b %Y" }}</b> Published <a href="{{ post.url | relative_url }}">{{ post.title }}</a></li>
+    {% for post in site.posts limit: 5 %}
+      {% assign update_title = post.short_title | default: post.title %}
+    <li>
+      <b class="update-date">{{ post.date | date: "%b %Y" }}</b>
+      <span class="update-body"><a href="{{ post.url | relative_url }}">{{ update_title }}</a></span>
+    </li>
     {% endfor %}
   </ul>
 </section>
