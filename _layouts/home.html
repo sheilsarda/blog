@@ -54,7 +54,7 @@ layout: default
     {% for item in site.data.updates %}
     <li>
       <b class="update-date">{{ item.date }}</b>
-      <span class="update-body">{{ item.html }}</span>
+      <span class="update-body">{{ item.html | safe }}</span>
     </li>
     {% endfor %}
     {% for post in site.posts limit: 5 %}
