@@ -1,9 +1,10 @@
-/* Personal academic homepage. Columbia blue, coral links, Source Sans Pro. */
+/* Personal academic homepage. Columbia blue, purple links, Source Sans Pro. */
 
 :root {
   --grey: rgb(90, 90, 90);
   --blue: rgb(2, 33, 105);
-  --pink: #F9564F;
+  --purple: #7C3AED;
+  --purple-dark: #6D28D9;
   --line: #ddd;
   --column: 1000px;
 }
@@ -33,12 +34,12 @@ img {
 }
 
 a {
-  color: var(--pink);
+  color: var(--purple);
   text-decoration: none;
 }
 
 a:hover {
-  color: #e03d36;
+  color: var(--purple-dark);
 }
 
 b, strong {
@@ -90,7 +91,7 @@ ul, ol {
 }
 
 #header a:hover {
-  color: var(--pink);
+  color: var(--purple);
 }
 
 .page {
@@ -215,7 +216,7 @@ a.research-proj-title {
 }
 
 a.research-proj-title:hover {
-  color: var(--pink);
+  color: var(--purple);
 }
 
 .research-meta {
@@ -234,7 +235,7 @@ a.research-proj-title:hover {
 }
 
 .site-footer a:hover {
-  color: var(--pink);
+  color: var(--purple);
 }
 
 .footer-links {
@@ -257,7 +258,7 @@ a.research-proj-title:hover {
 }
 
 .post-back a:hover {
-  color: var(--pink);
+  color: var(--purple);
 }
 
 .post-header {
