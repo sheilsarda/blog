@@ -7,8 +7,7 @@ name: Sheil Sarda
 # Leave blank to hide the line.
 email: "sheil at moonlakeai dot com"
 
-# Stand-in initials mark. Replace with a photo and update this path.
-photo: /assets/profile.svg
+photo: /assets/profile.jpg
 
 # Shown under the photo only when set. Example: Photo by Your Name
 credit: ""
