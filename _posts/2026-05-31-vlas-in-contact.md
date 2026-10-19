@@ -3,12 +3,12 @@ title: "VLAs in Contact: The Need for Speed"
 date: 2026-05-31
 slug: vlas-in-contact
 description: "Initiating coverage on three failure modes stopping VLAs from closing the contact loop."
-thumb: /assets/posts/vlas-in-contact/frequency-gap.png
+thumb: /assets/posts/vlas-in-contact/favla-contact-tasks.jpg
 ---
 
-![The rate gap between a VLA action chunk and contact, and the three failures it produces]({{ site.baseurl }}/assets/posts/vlas-in-contact/frequency-gap.png)
+![USB insertion, gear assembly, box flipping, and board wiping]({{ site.baseurl }}/assets/posts/vlas-in-contact/favla-contact-tasks.jpg)
 
-*A vision-language-action model commits its chunk at a few tens of hertz, contact closes around a kilohertz, and occlusion, a blind chunk, and the wrong modality are how that gap shows up.*
+*USB insertion, gear assembly, flipping a box, wiping a board. The contact is the task. Figure 4 of Li, Yao, et al., "FAVLA: A Force-Adaptive Fast-Slow VLA model for Contact-Rich Robotic Manipulation," 2026, [arXiv:2602.23648](https://arxiv.org/abs/2602.23648).*
 
 ## Glossary of terms
 
