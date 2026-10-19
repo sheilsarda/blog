@@ -2,6 +2,7 @@
 title: "Distilling a thousand stereo hours into a recipe for mono video"
 date: 2026-10-08
 slug: distilling-a-thousand-stereo-hours-into-a-recipe-for-mono-video
+thumb: /assets/posts/distilling-a-thousand-stereo-hours-into-a-recipe-for-mono-video/stereo-teacher-mono-student.png
 ---
 
 Suppose a data lab has two datasets:
@@ -12,6 +13,10 @@ Suppose a data lab has two datasets:
 The smaller collection gives us measurements we cannot obtain from every mono clip. The larger collection gives us more people, environments and interactions. I would use the stereo set to train and evaluate the estimators that process the mono set, then reconstruct selected scenes to produce additional supervision.
 
 The target is task-relevant geometry within measured error bounds. A monocular model can learn useful scale priors from stereo supervision, but some scenes remain ambiguous. We need to establish which outputs transfer to new cameras and environments before treating the larger collection as robot training data.
+
+![Stereo and IMU teach an RGB student that then runs on the mono fleet]({{ site.baseurl }}/assets/posts/distilling-a-thousand-stereo-hours-into-a-recipe-for-mono-video/stereo-teacher-mono-student.png)
+
+*The stereo rig supplies measured depth, pose, and hands, and the student has to recover those labels from RGB and intrinsics before the estimators touch the mono collection.*
 
 ## Label quality changes the policy
 

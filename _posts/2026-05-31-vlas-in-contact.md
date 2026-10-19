@@ -3,9 +3,12 @@ title: "VLAs in Contact: The Need for Speed"
 date: 2026-05-31
 slug: vlas-in-contact
 description: "Initiating coverage on three failure modes stopping VLAs from closing the contact loop."
+thumb: /assets/posts/vlas-in-contact/frequency-gap.png
 ---
 
-![Dual-system VLA architecture overview]({{ site.baseurl }}/assets/posts/vlas-in-contact/05a4b546-50f8-4ad7-aeec-198d1be462df_1194x271.png)
+![The rate gap between a VLA action chunk and contact, and the three failures it produces]({{ site.baseurl }}/assets/posts/vlas-in-contact/frequency-gap.png)
+
+*A vision-language-action model commits its chunk at a few tens of hertz, contact closes around a kilohertz, and occlusion, a blind chunk, and the wrong modality are how that gap shows up.*
 
 ## Glossary of terms
 
@@ -26,6 +29,8 @@ description: "Initiating coverage on three failure modes stopping VLAs from clos
 ## The frequency gap
 
 The frequency gap between VLAs and contact controllers is 100–1000× and structurally inherent to current architectures. The frequency ceiling of control loops based purely on VLAs is real and acknowledged by model companies. A monolithic VLA runs a forward pass on the current image and instruction, then emits a single action. "Chunking" is a technique that changes the output from one action to a sequence of 50 future actions for instance. A robot can execute those actions at a faster control rate while a different controller prepares the next chunk.
+
+![Dual-system VLA architecture overview]({{ site.baseurl }}/assets/posts/vlas-in-contact/05a4b546-50f8-4ad7-aeec-198d1be462df_1194x271.png)
 
 This looks like it solves the problem until one realizes that chunks are committed plans, decided before the model observes what happens during their execution. The closed-loop reaction rate (rate at which the system can respond to an unexpected force spike) remains the slow forward-pass rate. Secondly, force/torque signals carry information vision categorically cannot supply. So even if you somehow ran a VLA at 1 kHz, the input modality is wrong for the task.
 
