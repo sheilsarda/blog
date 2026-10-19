@@ -6,7 +6,7 @@ slug: getting-grpo-to-run-on-our-own-robot-tasks
 
 On October 2, Qi reported the first reinforcement learning run at Moonlake: GRPO on a drawer-opening task, starting from a model fine-tuned on demonstrations. A 0-or-1 success reward taught it nothing. A reward on how far the drawer opened rose steadily and produced one successful rollout after two epochs. That one result is the thread through this post: what RL needs from us before it can run on our own Isaac Lab Arena tasks, and why the reward is the part that decides whether it learns anything.
 
-This post follows [the survey of how labs train manipulation policies]({{ site.baseurl }}/blog/six-ways-labs-train-manipulation-policies/), which places what we do on that map. The short version: we train policies three ways today, all with supervised fine-tuning (SFT) on demonstrations. Nick and Jing Yi train Pi0.5 by behavior cloning on demonstrations that scripted teachers generate in Arena. Xiaoyuan fine-tunes Qwen3.8-27B to call robot tools from teleoperated YAM demonstrations, using Miles, an open-source RL framework we have used only for SFT so far. Qi fine-tunes Qwen on GPT-6 Astra's successful rollouts. None of these has run RL on our own tasks yet.
+This post follows [the survey of how labs train manipulation policies]({{ site.baseurl }}/six-ways-labs-train-manipulation-policies/), which places what we do on that map. The short version: we train policies three ways today, all with supervised fine-tuning (SFT) on demonstrations. Nick and Jing Yi train Pi0.5 by behavior cloning on demonstrations that scripted teachers generate in Arena. Xiaoyuan fine-tunes Qwen3.8-27B to call robot tools from teleoperated YAM demonstrations, using Miles, an open-source RL framework we have used only for SFT so far. Qi fine-tunes Qwen on GPT-6 Astra's successful rollouts. None of these has run RL on our own tasks yet.
 
 ## What RL needs from us
 
@@ -148,4 +148,4 @@ Off-policy, or stale, data comes from older weights and needs a correction such 
 
 Frameworks: [radixark/miles](https://github.com/radixark/miles) · [Miles intro (LMSYS, Nov 2025)](https://www.lmsys.org/blog/2025-11-19-miles) · [Miles v0.1 (LMSYS, Aug 2026)](https://www.lmsys.org/blog/2026-08-18-miles-v0-1) · [THUDM/slime](https://github.com/THUDM/slime) · [Anyscale survey of open-source RL libraries](https://anyscale.com/blog/open-source-rl-libraries-for-llms) · [verl agent loop](https://verl.readthedocs.io/en/latest/advance/agent_loop.html) · [NeMo-RL algorithms](https://docs.nvidia.com/nemo/rl/0.7.0/about/algorithms/index.html)
 
-Papers: linked inline. [The survey post]({{ site.baseurl }}/blog/six-ways-labs-train-manipulation-policies/) carries the full reading list and the literature table.
+Papers: linked inline. [The survey post]({{ site.baseurl }}/six-ways-labs-train-manipulation-policies/) carries the full reading list and the literature table.

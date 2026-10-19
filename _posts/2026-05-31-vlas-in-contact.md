@@ -43,7 +43,7 @@ How does one decide what's right for the use case?
 
 **Do the controlling physical parameters vary at deployment vs training?** If yes, you need aggressive domain randomization, or explicit online adaptation. This covers unknown material properties, unknown friction / gravity, novel objects, etc.
 
-**Is the task safety-critical against an external standard?** If yes, the learned policy can propose but cannot enforce. You need a verified runtime-assurance wrapper (see [my previous blog post]({{ site.baseurl }}/blog/vlas-in-safety-critical-applications/)).
+**Is the task safety-critical against an external standard?** If yes, the learned policy can propose but cannot enforce. You need a verified runtime-assurance wrapper (see [my previous blog post]({{ site.baseurl }}/vlas-in-safety-critical-applications/)).
 
 We'll cover each domain individually, and describe potential implementation approaches, trade offs, and alternatives to consider.
 
@@ -113,7 +113,7 @@ The meta question underlying this hunt to squash OOD errors is if learned polici
 
 The failure mode is that the policy issues a command which would work in isolation but violates an external safety or correctness constraint that the system has committed to upholding.
 
-For more on this problem and potential solutions, see [Is It Possible to Run a Vision-Language-Action Model in a Safety-Critical Loop?]({{ site.baseurl }}/blog/vlas-in-safety-critical-applications/).
+For more on this problem and potential solutions, see [Is It Possible to Run a Vision-Language-Action Model in a Safety-Critical Loop?]({{ site.baseurl }}/vlas-in-safety-critical-applications/).
 
 ## Conclusion
 
