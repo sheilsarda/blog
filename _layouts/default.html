@@ -17,16 +17,13 @@
   {% assign home = '/' | relative_url %}
   {% if page.url == "/" %}
     {% assign profile_href = "#profile" %}
-    {% assign updates_href = "#updates" %}
     {% assign blog_href = "#blog" %}
   {% else %}
     {% assign profile_href = home | append: "#profile" %}
-    {% assign updates_href = home | append: "#updates" %}
     {% assign blog_href = home | append: "#blog" %}
   {% endif %}
   <nav id="header">
     <a href="{{ profile_href }}">Home</a>
-    <a href="{{ updates_href }}">Updates</a>
     <a href="{{ blog_href }}">Blog</a>
   </nav>
   <div class="page">
